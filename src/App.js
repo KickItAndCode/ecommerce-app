@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import "./App.css";
 import HomePage from "./pages/homepage/homepage";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Shop from "./components/shop/shop";
 import Header from "./pages/header/header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import UserProvider, { UserContext } from "./context/userProvider";
+import { setCurrentUser } from "./actions/user.actions";
+
 const Hats = () => {
   return <div>Hats</div>;
 };
@@ -15,7 +18,8 @@ const Details = () => {
 };
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const { userState, dispatch } = useContext(UserContext);
+  // const [currentUser, setCurrentUser] = useState(null);
   let unsubscribeFromAuth = null;
   useEffect(() => {
     unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -26,16 +30,16 @@ function App() {
         console.log(userRef);
 
         userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            currentUser: {
+          console.log(snapShot);
+          dispatch(
+            setCurrentUser({
               id: snapShot.id,
               ...snapShot.data()
-            }
-          });
+            })
+          );
         });
       }
-
-      setCurrentUser({ currentUser: userAuth });
+      dispatch(setCurrentUser(userAuth));
     });
 
     return () => {
@@ -43,15 +47,22 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
   return (
     <div className="App">
       <BrowserRouter>
-        <Header currentUser={currentUser} />
+        <Header />
         <Route exact path="/" component={HomePage} />
-        <Route path="/Hats" component={Hats} />
         <Route path="/Shop" component={Shop} />
-        <Route path="/Details" component={Details} />
-        <Route path="/SignIn" component={SignInAndSignUp} />
+        <Route
+          exact
+          path="/SignIn"
+          render={() =>
+            userState.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+          }
+        />
       </BrowserRouter>
     </div>
   );
