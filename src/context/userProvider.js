@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import { UserActionTypes } from "../actions/user.types";
 
 export const UserContext = React.createContext({});
-
 export const UserConsumer = UserContext.Consumer;
 
 const reducer = (userState = { currentUser: null }, action) => {

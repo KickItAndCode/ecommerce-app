@@ -6,7 +6,7 @@ import Shop from "./components/shop/shop";
 import Header from "./pages/header/header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import UserProvider, { UserContext } from "./context/userProvider";
+import { UserContext } from "./context/userProvider";
 import { setCurrentUser } from "./actions/user.actions";
 
 const Hats = () => {
