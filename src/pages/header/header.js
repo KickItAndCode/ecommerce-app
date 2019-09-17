@@ -6,9 +6,11 @@ import { auth } from "../../firebase/firebase.utils";
 import { UserContext } from "../../context/userProvider";
 import CartIcon from "../../components/cart-icon/cart-icon";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown";
+import { CartContext } from "../../context/cartProvider";
 
 const Header = () => {
   const { userState } = useContext(UserContext);
+  const { cartState } = useContext(CartContext);
   return (
     <div className="header">
       <Link className="logo-container" to="/">
@@ -33,7 +35,7 @@ const Header = () => {
 
         <CartIcon />
       </div>
-      <CartDropdown />
+      {!cartState.hidden && <CartDropdown />}
     </div>
   );
 };

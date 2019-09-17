@@ -3,19 +3,31 @@ import CustomButton from "../custom-button/custom-button";
 import "./cart-dropdown.scss";
 import CartItem from "../cart-item/cart-item";
 import { CartContext } from "../../context/cartProvider";
-
-const CartDropdown = () => {
+import { withRouter } from "react-router-dom";
+import { toggleCartHidden } from "../../actions/cart.actions";
+const CartDropdown = ({ history }) => {
   const { cartState, dispatch } = useContext(CartContext);
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
-        {cartState.cartItems.map(cartItem => (
-          <CartItem key={cartItem.id} item={cartItem} />
-        ))}
+        {cartState.cartItems.length ? (
+          cartState.cartItems.map(cartItem => (
+            <CartItem key={cartItem.id} item={cartItem} />
+          ))
+        ) : (
+          <span className="empty-message">Your cart is empty</span>
+        )}
       </div>
-      <CustomButton> GO TO CHECKOUT</CustomButton>
+      <CustomButton
+        onClick={() => {
+          history.push("/Checkout");
+          dispatch(toggleCartHidden());
+        }}
+      >
+        GO TO CHECKOUT
+      </CustomButton>
     </div>
   );
 };
 
-export default CartDropdown;
+export default withRouter(CartDropdown);

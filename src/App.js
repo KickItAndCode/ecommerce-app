@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Shop from "./components/shop/shop";
 import Header from "./pages/header/header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up";
+import Checkout from "./pages/checkout/checkout";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { UserContext } from "./context/userProvider";
 import { setCurrentUser } from "./actions/user.actions";
@@ -63,6 +64,7 @@ function App() {
             userState.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
           }
         />
+        <Route exact path="/Checkout" component={Checkout} />
       </BrowserRouter>
     </div>
   );
