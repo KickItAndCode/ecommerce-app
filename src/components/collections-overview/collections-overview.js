@@ -4,10 +4,10 @@ import CollectionPreview from "../collection-preview/collection-preview";
 import "./collections-overview.scss";
 const CollectionsOverview = () => {
   const { shopState } = useContext(ShopContext);
-
+  let data = Object.keys(shopState).map(key => shopState[key]);
   return (
     <div className="collections-overview">
-      {shopState.map(({ id, ...otherProps }) => (
+      {data.map(({ id, ...otherProps }) => (
         <CollectionPreview key={id} {...otherProps} />
       ))}
     </div>
