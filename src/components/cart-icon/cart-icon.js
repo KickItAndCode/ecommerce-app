@@ -7,15 +7,20 @@ import { CartContext } from "../../context/cartProvider";
 
 const CartIcon = () => {
   const { cartState, dispatch } = useContext(CartContext);
-  const itemCount = useMemo(
-    () =>
-      cartState.cartItems.reduce(
-        (accumalatedQuantity, cartItem) =>
-          accumalatedQuantity + cartItem.quantity,
-        0
-      ),
-    [cartState]
+  const itemCount = cartState.cartItems.reduce(
+    (accumalatedQuantity, cartItem) => accumalatedQuantity + cartItem.quantity,
+    0
   );
+
+  // const itemCount = useMemo(
+  //   () =>
+  //     cartState.cartItems.reduce(
+  //       (accumalatedQuantity, cartItem) =>
+  //         accumalatedQuantity + cartItem.quantity,
+  //       0
+  //     ),
+  //   [cartState]
+  // );
 
   return (
     <div className="cart-icon" onClick={() => dispatch(toggleCartHidden())}>
